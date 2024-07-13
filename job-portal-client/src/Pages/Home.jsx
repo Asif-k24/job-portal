@@ -22,7 +22,7 @@ export default function Home() {
                 setJobs(data);
                 setIsLoading(false);
             })
-    }, [])
+    }, []);
 
     // console.log(jobs);
 
@@ -33,7 +33,7 @@ export default function Home() {
     }
 
     // filter jobs by title
-    const filteredItems = jobs.filter((job) => job.jobTitle.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    const filteredItems = jobs.filter((job) => job.jobTitle?.toLowerCase().indexOf(query?.toLowerCase()) !== -1);
     // console.log(filteredItems);
 
     // -------------- Radio based filtering -------------
