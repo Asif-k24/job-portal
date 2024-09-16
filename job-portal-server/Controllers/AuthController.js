@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../Models/User");
 
-
 const signup = async (req, res) => {
 
     try {
@@ -12,13 +11,18 @@ const signup = async (req, res) => {
             return res.status(409)
                 .json({ message: "User already exists, you can't signup", success: false });
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const userModel = await new UserModel.create({ name, email, password: hashedPassword });
+        const userModel = new UserModel({ name, email, password });
+        userModel.password = await bcrypt.hash(password, 10);
+        await userModel.save()
         res.status(201)
             .json({
                 message: "Signup Successfull",
                 success: true,
-                data: userModel,
+                data: {
+                    jwtToken,
+                    email,
+                    name: user.name
+                }
             })
     } catch (err) {
         res.status(500)
@@ -60,7 +64,7 @@ const login = async (req, res) => {
             .json({
                 message: "Login Successfull",
                 success: true,
-                data:{
+                data: {
                     jwtToken,
                     email,
                     name: user.name
