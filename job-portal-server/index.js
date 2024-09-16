@@ -7,19 +7,17 @@ const AuthRouter = require("./Routes/AuthRouter")
 const ensureAuthenticated = require('./Middlewares/Auth');
 // const ensureAuthenticated = require('./Middlewares/Auth');
 require('dotenv').config();
-const db  = require("./Models/db");
-const Jobs = require("./Models/Jobs")
+require("./Models/db");
 
 // middleware
 app.use(bodyParser.json())
 app.use(cors());
 app.use(express.json());
 app.use('/auth', AuthRouter);
-app.use('/products', AuthRouter);
+app.use('/', AuthRouter);
 
 // username: asif69284
 // password: cdqm9blF0Stx9JLa
-
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 // const { default: mongoose } = require('mongoose');
@@ -41,15 +39,15 @@ async function run() {
 
         // create db
         const db = client.db("mernJobPortal");
-        // const jobsCollections = db.collection("jobs")
-        
+        const jobsCollections = db.collection("jobs")
+
         // post a job
         app.post("/post-job", ensureAuthenticated, async (req, res) => {
             console.log('---- logged in user detail ----', req.user);
             const body = req.body;
             body.createAt = new Date();
             // console.log(body)
-            const result = await Jobs.create(body);
+            const result = await jobsCollections.create(body);
             if (result.insertedId) {
                 return res.status(200).send(result);
             } else {
@@ -62,14 +60,14 @@ async function run() {
 
         // get all jobs
         app.get("/all-jobs", async (req, res) => {
-            const jobs = await Jobs.find().toArray();
+            const jobs = await jobsCollections.find().toArray();
             res.send(jobs);
         })
 
         // get single job using id
         app.get("/all-jobs/:id", async (req, res) => {
             const id = req.params.id;
-            const job = await Jobs.findOne({
+            const job = await jobsCollections.findOne({
                 _id: new ObjectId(id)
             })
             res.send(job);
@@ -78,7 +76,7 @@ async function run() {
         // get jobs by email
         app.get("/myJobs/:email", async (req, res) => {
             // console.log(req.params.email);
-            const jobs = await Jobs.find({ postedBy: req.params.email }).toArray();
+            const jobs = await jobsCollections.find({ postedBy: req.params.email }).toArray();
             res.send(jobs);
         })
 
@@ -86,7 +84,7 @@ async function run() {
         app.delete("/job/:id", async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) };
-            const result = await Jobs.deleteOne(filter);
+            const result = await jobsCollections.deleteOne(filter);
             res.send(result);
         })
 
@@ -101,7 +99,7 @@ async function run() {
                     ...jobData
                 },
             };
-            const result = await Jobs.updateOne(filter, updateDoc, options)
+            const result = await jobsCollections.updateOne(filter, updateDoc, options)
             res.send(result)
         })
 
