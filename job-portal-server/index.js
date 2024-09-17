@@ -20,8 +20,7 @@ app.use('/', AuthRouter);
 // password: cdqm9blF0Stx9JLa
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-// const { default: mongoose } = require('mongoose');
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@job-portal-mern.akzvfxb.mongodb.net/?appName=job-portal-mern`;
+const uri = process.env.MONGO_CONN;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
