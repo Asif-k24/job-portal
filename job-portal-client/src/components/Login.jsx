@@ -6,57 +6,57 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Login() {
 
   const [error, setError] = useState("custom error")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const navigate = useNavigate()
-    // const dispatch = useDispatch()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const navigate = useNavigate()
+  // const dispatch = useDispatch()
 
-    // const notify = () => ;
+  // const notify = () => ;
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        // console.log(e.target.email.value);
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // console.log(e.target.email.value);
 
-        fetch.post("https://localhost:3000/all-jobs", {
-            email,
-            password,
-        })
-            .then((res) => {        // if status code is 200    // status code  == 200
-                navigate("/")
-                toast.dismiss()
-                // setUser(res.data.user.name)
+    fetch.post("https://localhost:3000/all-jobs", {
+      email,
+      password,
+    })
+      .then((res) => {        // if status code is 200    // status code  == 200
+        navigate("/")
+        toast.dismiss()
+        // setUser(res.data.user.name)
 
-                toast.success('Login Successful', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                });
-                dispatch(setReduxUser(res.data.user));
-                localStorage.setItem("access_token", res.data.access_token);
-            })
-            .catch((err) => {       // status codes other than 200      // status codes !== 200
-                // console.log("login failed..");
-                // console.log(err.response.data.msg);
-                // setError(err.response.data.msg)
-                toast.dismiss()
-                toast.error(err.response.data.msg, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                });
-            })
-    }
-  
+        toast.success('Login Successful', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        dispatch(setReduxUser(res.data.user));
+        localStorage.setItem("access_token", res.data.access_token);
+      })
+      .catch((err) => {       // status codes other than 200      // status codes !== 200
+        // console.log("login failed..");
+        // console.log(err.response.data.msg);
+        // setError(err.response.data.msg)
+        toast.dismiss()
+        toast.error(err.response.data.msg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      })
+  }
+
   return (
     <div className='h-screen w-full flex items-center justify-center'>
       <>
