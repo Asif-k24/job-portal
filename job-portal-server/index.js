@@ -1,13 +1,13 @@
+require('dotenv').config();
+require("./Models/db");
 const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require('cors');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 const AuthRouter = require("./Routes/AuthRouter")
 const ensureAuthenticated = require('./Middlewares/Auth');
 // const ensureAuthenticated = require('./Middlewares/Auth');
-require('dotenv').config();
-require("./Models/db");
 
 // middleware
 app.use(bodyParser.json())
@@ -15,9 +15,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/auth', AuthRouter);
 app.use('/', AuthRouter);
-
-// username: asif69284
-// password: cdqm9blF0Stx9JLa
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = process.env.MONGO_CONN;
@@ -44,9 +41,9 @@ async function run() {
         app.post("/post-job", ensureAuthenticated, async (req, res) => {
             console.log('---- logged in user detail ----', req.user);
             const body = req.body;
-            body.createAt = new Date();
+            body.createdAt = new Date();
             // console.log(body)
-            const result = await jobsCollections.create(body);
+            const result = await jobsCollections.insertOne(body);
             if (result.insertedId) {
                 return res.status(200).send(result);
             } else {
@@ -104,10 +101,13 @@ async function run() {
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        console.log("Pinged your deployment. You are successfully connected to MongoDB!");
     } finally {
-        // Ensures that the client will close when you finish/error
-        // await client.close();
+        process.on('SIGINT', async () => {
+            await client.close();
+            console.log('MongoDB disconnected on app termination');
+            process.exit(0);
+          });
     }
 }
 run().catch(console.dir);
@@ -118,5 +118,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on port ${port} `)
 })
