@@ -9,7 +9,7 @@ const signup = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (user) {
             return res.status(409)
-                .json({ message: "User already exists, you can't signup", success: false });
+                .json({ message: "User already exists, you can login", success: false });
         }
         const userModel = new UserModel({ name, email, password });
         userModel.password = await bcrypt.hash(password, 10);
@@ -30,7 +30,6 @@ const signup = async (req, res) => {
                 message: "Internal Server Error",
                 success: false,
             })
-
     }
 }
 
@@ -58,7 +57,6 @@ const login = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: "24h" }
         );
-
 
         res.status(200)
             .json({
