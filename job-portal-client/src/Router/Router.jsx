@@ -7,6 +7,8 @@ import SalaryPage from "../Pages/SalaryPage";
 import UpdateJob from "../Pages/UpdateJob";
 import Login from "../components/Login";
 import JobDetails from "../Pages/JobDetails";
+import { Navigate } from "react-router-dom";
+import Signup from "../components/Signup";
 // import About from "../pages/About";
 
 const router = createBrowserRouter([
@@ -14,7 +16,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <App />,
         children: [
-            { path: "/", element: <Home /> },
+            { path: "/", element: <Navigate to="/auth/login" /> },
             { path: "/post-job", element: <CreateJob /> },
             { path: "/my-job", element: <MyJobs /> },
             { path: "/salary", element: <SalaryPage /> },
@@ -26,7 +28,8 @@ const router = createBrowserRouter([
             // { path: "/about", element: <About />},
         ]
     },
-    { path: "/login", element: <Login /> },
+    { path: "/auth/login", element: <Login />},
+    { path: "/auth/signup", element: <Signup /> },
 ]);
 
 export default router;
