@@ -27,29 +27,32 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
-    const { name, email, password } = loginInfo; // Destructure signupInfo
-    if (!name || !email || !password) {
-      return handleError('Name, Email & Password are required.'); // Error handling for empty fields
+    const { email, password } = loginInfo; // Destructure loginInfo
+    if (!email || !password) {
+      return handleError('Email & Password are required.'); // Error handling for empty fields
     }
 
     try {
       // Use relative URL if you have proxy set up in Vite
-      const url = "http://localhost:3000/auth/signup"; // Change to relative URL for Vite proxy
+      const url = "http://localhost:3000/auth/login"; // Change to relative URL for Vite proxy
 
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": 'application/json'
         },
-        body: JSON.stringify(signupInfo) // Explicitly pass the required fields
+        body: JSON.stringify(loginInfo) // Explicitly pass the required fields
       });
       const result = await response.json(); // Parse the response JSON
-      const { success, message, error } = result; // Destructure result
+      const { success, message, data } = result; // Destructure result
 
-      if (success) {
+      if (success) {  
         handleSuccess(message); // Handle successful signup
+        localStorage.setItem('token', data.jwtToken)
+        localStorage.setItem('loggedInUser', data.name)
         setTimeout(() => {
-          navigate('/auth/login'); // Navigate to login after successful signup
+          navigate('/home'); // Navigate to login after successful signup
+          window.scrollTo(0, 0);
         }, 1000);
       } else if (error) {
         const details = error?.details[0].message; // More robust error handling
@@ -63,7 +66,7 @@ export default function Login() {
     }
   };
 
-  console.log('signupInfo ->', signupInfo);
+  console.log('loginInfo ->', loginInfo);
 
   return (
     <>
@@ -72,25 +75,11 @@ export default function Login() {
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img className="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign Up</h2>
+            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Login</h2>
           </div>
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form onSubmit={handleSignup} className="space-y-6">
-
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Name</label>
-              <div className="mt-2">
-                <input
-                  id="name"
-                  onChange={handleChange}
-                  name="name"
-                  type="text"
-                  placeholder='Eg: Rikesh'
-                  autoComplete="Name"
-                  value={signupInfo.name}
-                  autoFocus
-                  className="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-offset-secondary sm:text-sm sm:leading-6" />
-              </div>
+            <form onSubmit={handleLogin} className="space-y-6">
 
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
               <div className="mt-2">
@@ -101,7 +90,7 @@ export default function Login() {
                   type="email"
                   placeholder='Eg: rikesh47@yahoo.com'
                   autoComplete="Email"
-                  value={signupInfo.email}
+                  value={loginInfo.email}
                   className="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-offset-secondary sm:text-sm sm:leading-6" />
               </div>
 
@@ -119,19 +108,19 @@ export default function Login() {
                   type="password"
                   placeholder='Enter your password'
                   autoComplete="current-password"
-                  value={signupInfo.password}
+                  value={loginInfo.password}
                   required
                   className="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
 
-              <div>
-                <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign Up</button>
+              <div className='flex justify-center pt-5'>
+                <button type="submit" className="flex w-72 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Login</button>
               </div>
             </form>
 
             <p className="mt-10 text-center text-sm text-gray-500">
-              Create a new account
-              <Link to="/auth/login" className="font-semibold leading-6 underline text-primary hover:text-primary"> Sign Up</Link>
+              Don't have an account ?
+              <Link to="/auth/signup" className="font-semibold leading-6 underline text-primary hover:text-primary"> Sign Up</Link>
             </p>
           </div>
         </div>
