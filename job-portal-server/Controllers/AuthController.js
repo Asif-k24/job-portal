@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const UserModel = require("../Models/User");
 
 const signup = async (req, res) => {
-console.log({res});
+    // console.log({res});
 
     try {
         const { name, email, password } = req.body;
@@ -21,8 +21,7 @@ console.log({res});
                 success: true,
             })
     } catch (err) {
-        console.log({err});
-        
+        // console.log({err});
         res.status(500)
             .json({
                 message: "Internal Server Error",
