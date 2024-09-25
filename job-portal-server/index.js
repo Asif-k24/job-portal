@@ -5,16 +5,16 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const port = process.env.PORT;
-const AuthRouter = require("./Routes/AuthRouter")
+const AuthRouter = require("./Routes/AuthRouter");
 const ensureAuthenticated = require('./Middlewares/Auth');
 // const ensureAuthenticated = require('./Middlewares/Auth');
 
 // middleware
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 app.use('/auth', AuthRouter);
-app.use('/', AuthRouter);
+// app.use('/', AuthRouter);
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = process.env.MONGO_CONN;
@@ -107,7 +107,7 @@ async function run() {
             await client.close();
             console.log('MongoDB disconnected on app termination');
             process.exit(0);
-          });
+        });
     }
 }
 run().catch(console.dir);
