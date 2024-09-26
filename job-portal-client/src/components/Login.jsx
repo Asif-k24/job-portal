@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../utils';
-import Navbar from './Navbar';
 import { ToastContainer } from 'react-toastify';
+import Navbar from './Navbar';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
@@ -44,18 +44,18 @@ export default function Login() {
         body: JSON.stringify(loginInfo) // Explicitly pass the required fields
       });
       const result = await response.json(); // Parse the response JSON
-      const { success, message, data } = result; // Destructure result
+      const { success, message, data, error } = result; // Destructure result
 
-      if (success) {  
+      if (success) {
         handleSuccess(message); // Handle successful signup
-        localStorage.setItem('token', data.jwtToken)
-        localStorage.setItem('loggedInUser', data.name)
+        localStorage.setItem('token', data.jwtToken);
+        localStorage.setItem('loggedInUser', data.name);
         setTimeout(() => {
           navigate('/home'); // Navigate to login after successful signup
           window.scrollTo(0, 0);
         }, 1000);
       } else if (error) {
-        const details = error?.details[0].message; // More robust error handling
+        const details = error.details[0].message; // More robust error handling
         handleError(details); // Display error details
       } else if (!success) {
         handleError(message); // Handle any unexpected errors
