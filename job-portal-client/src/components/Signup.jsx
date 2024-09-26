@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../utils';
-import Navbar from './Navbar';
 import { ToastContainer } from 'react-toastify';
+import Navbar from './Navbar';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Signup() {
