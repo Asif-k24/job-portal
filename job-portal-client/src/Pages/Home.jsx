@@ -9,8 +9,6 @@ import { ToastContainer } from 'react-toastify';
 
 export default function Home() {
 
-    const [loggedInUser, setLoggedInUser] = useState()
-    const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [jobs, setJobs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -20,15 +18,6 @@ export default function Home() {
     useEffect(() => {
         setLoggedInUser(localStorage.getItem('loggedInUser'))
     }, [])
-
-    // const handleLogout = (e) => {
-    //     localStorage.removeItem('token')
-    //     localStorage.removeItem('loggedInUser')
-    //     handleSuccess('Logged Out Successfully')
-    //     setTimeout(() => {
-    //         navigate('/auth/login')
-    //     }, 1000)
-    // }
 
     useEffect(() => {
         setIsLoading(true);
