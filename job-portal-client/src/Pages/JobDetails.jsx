@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import PageHeader from '../components/PageHeader'
 
@@ -8,10 +8,9 @@ export default function JobDetails() {
     const [job, setJob] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:3000/all-jobs/${id}`
+        fetch(`http://localhost:3000/all-jobs/${id}`)
             .then(res => res.json())
             .then(data => setJob(data))
-        )
     }, [])
 
     // console.log(id);
