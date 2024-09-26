@@ -4,14 +4,31 @@ import Card from '../components/Card';
 import Jobs from './Jobs';
 import Sidebar from '../sidebar/Sidebar';
 import Newsletter from '../components/Newsletter';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 export default function Home() {
 
+    const [loggedInUser, setLoggedInUser] = useState()
+    const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [jobs, setJobs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
+
+    useEffect(() => {
+        setLoggedInUser(localStorage.getItem('loggedInUser'))
+    }, [])
+
+    // const handleLogout = (e) => {
+    //     localStorage.removeItem('token')
+    //     localStorage.removeItem('loggedInUser')
+    //     handleSuccess('Logged Out Successfully')
+    //     setTimeout(() => {
+    //         navigate('/auth/login')
+    //     }, 1000)
+    // }
 
     useEffect(() => {
         setIsLoading(true);
@@ -153,6 +170,7 @@ export default function Home() {
                 <div className='bg-white p-4 rounded'><Newsletter /></div>
             </div>
 
+            <ToastContainer />
         </div>
     )
 }
