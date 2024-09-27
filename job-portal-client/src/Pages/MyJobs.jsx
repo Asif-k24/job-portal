@@ -132,7 +132,7 @@ export default function MyJobs() {
                                     </tr>
                                 </thead>
                                 {
-                                    isLoading ? (<div className='flex items-center justify-center h-20'>loading.....<p></p></div>) : (<tbody>
+                                    isLoading ? (<caption className='flex items-center justify-center h-20'>loading.....</caption>) : (<tbody>
                                         {
                                             currentJobs.map((job, index) => (
                                                 <tr key={index}>
@@ -144,7 +144,7 @@ export default function MyJobs() {
                                             whitespace-nowrap p-4 ">
                                                         {job.jobTitle}
                                                     </td>
-                                                    <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs 
+                                                    <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs
                                             whitespace-nowrap p-4">
                                                         {job.companyName}
                                                     </td>
