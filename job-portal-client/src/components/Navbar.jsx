@@ -80,7 +80,9 @@ export default function Navbar() {
                             location.pathname !== '/auth/login' && <Link to="/auth/login" className='py-2 px-5 border rounded'>Log in</Link>
                         )
                     }
-                    <Link to="/auth/sign-up" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</Link>
+                    {
+                        location.pathname !== '/auth/signup' && <Link to="/auth/signup" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</Link>
+                    }
                 </div>
 
                 {/* mobile menu */}
