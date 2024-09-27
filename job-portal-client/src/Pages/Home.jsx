@@ -4,11 +4,14 @@ import Card from '../components/Card';
 import Jobs from './Jobs';
 import Sidebar from '../sidebar/Sidebar';
 import Newsletter from '../components/Newsletter';
+import PageFooter from '../components/PageFooter'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 export default function Home() {
 
+    const [loggedInUser, setLoggedInUser] = useState()
+    const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [jobs, setJobs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -158,7 +161,7 @@ export default function Home() {
                 {/* right side */}
                 <div className='bg-white p-4 rounded'><Newsletter /></div>
             </div>
-
+            <PageFooter />
             <ToastContainer />
         </div>
     )
