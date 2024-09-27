@@ -1,14 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom';
+import { handleSuccess } from '../utils';
 
 export default function Navbar() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const location = useLocation()
+    const [loggedInUser, setLoggedInUser] = useState();
+    const navigate = useNavigate();
+    const location = useLocation();
     const handleMenuToggler = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setLoggedInUser(!!token) // Convert to boolean
+    }, [])
+
+    const handleLogout = (e) => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('loggedInUser')
+        handleSuccess('Logged Out Successfully')
+        setTimeout(() => {
+            navigate('/auth/login')
+        }, 1000)
+    }
 
     const navItems = [
         { path: "/", title: "Start a search" },
@@ -56,11 +74,13 @@ export default function Navbar() {
                 {/* signup and login btn */}
                 <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
                     {
-                        location.pathname !== '/login' &&
-                        (
-                            <Link to="/login" className='py-2 px-5 border rounded'>Log in</Link>
-                        )}
-                    <Link to="/sign-up" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</Link>
+                        loggedInUser ? (
+                            <button onClick={handleLogout} className='py-2 px-5 border rounded bg-blue text-white'>Logout</button>
+                        ) : (
+                            location.pathname !== '/auth/login' && <Link to="/auth/login" className='py-2 px-5 border rounded'>Log in</Link>
+                        )
+                    }
+                    <Link to="/auth/sign-up" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</Link>
                 </div>
 
                 {/* mobile menu */}
