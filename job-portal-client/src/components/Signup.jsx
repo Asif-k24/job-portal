@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../utils';
 import { ToastContainer } from 'react-toastify';
-import Navbar from './Navbar';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Signup() {
@@ -14,10 +13,6 @@ export default function Signup() {
     password: "",
   })
   const navigate = useNavigate()
-
-  // const dispatch = useDispatch()
-
-  // const notify = () => ;
 
   const handleChange = (e) => {
     e.preventDefault()
