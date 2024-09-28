@@ -10,6 +10,7 @@ export default function Navbar() {
     const [loggedInUser, setLoggedInUser] = useState();
     const navigate = useNavigate();
     const location = useLocation();
+
     const handleMenuToggler = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -19,7 +20,7 @@ export default function Navbar() {
         setLoggedInUser(!!token) // Convert to boolean
     }, [])
 
-    const handleLogout = (e) => {
+    const handleLogout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('loggedInUser')
         handleSuccess('Logged Out Successfully')
@@ -28,17 +29,10 @@ export default function Navbar() {
         }, 1000)
     }
 
-    const navItems = [
-        { path: "/", title: "Start a search" },
-        { path: "/my-job", title: "My Jobs" },
-        { path: "/salary", title: "Salary Estimate" },
-        { path: "/post-job", title: "Post A Job" },
-    ]
-
     return (
         <header className='max-w-screen-2xl container mx-auto xl:px-24 px-4'>
             <nav className='flex justify-between items-center py-6'>
-                <a href="/" className='flex items-center gap-2 text-2xl text-black'>
+                <NavLink to="/" className='flex items-center gap-2 text-2xl text-black'>
                     <svg
                         xmlns="http://www.w3.org/200/svg"
                         width="39"
@@ -55,34 +49,40 @@ export default function Navbar() {
                         />
                         <circle cx="16.9857" cy="17.4857" r="12.0143" fill="#3575E2" />
                     </svg> <span>Job Portal</span>
-                </a>
+                </NavLink>
 
                 {/* nav items for large devices */}
                 <ul className="hidden md:flex gap-12">
-                    {navItems.map(({ path, title }) => (
-                        <li key={path} className="text-base text-primary">
-                            <NavLink
-                                to={path}
-                                className={({ isActive }) => isActive ? "active" : ""}
-                            >
-                                {title}
-                            </NavLink>
-                        </li>
-                    ))}
+                    {/* {
+                        navItems.map(({ path, title }) => ( */}
+                            <li className="text-base text-primary">
+                                <NavLink to="/home" className="mx-10">Start a search</NavLink>
+                                <NavLink to="/my-job" className="mx-10">My Jobs</NavLink>
+                                <NavLink to="/salary" className="mx-10">Salary Estimate</NavLink>
+                                <NavLink to="/post-job" className="mx-10">Post a Job</NavLink>
+                            </li>
+                        {/* ))} */}
                 </ul>
 
                 {/* signup and login btn */}
                 <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
+                    {/* Logout button */}
                     {
                         loggedInUser ? (
-                            <button onClick={handleLogout} className='py-2 px-5 border rounded bg-blue text-white'>Logout</button>
+                            <NavLink onClick={handleLogout} className='py-2 px-5 border rounded bg-blue text-white'>Logout</NavLink>
                         ) : (
-                            location.pathname !== '/auth/login' && <Link to="/auth/login" className='py-2 px-5 border rounded'>Log in</Link>
+                            // Login button
+                            location.pathname !== '/auth/login' && <NavLink to="/auth/login" className='py-2 px-5 border rounded'>Log in</NavLink>
                         )
                     }
                     {
-                        location.pathname !== '/auth/signup' && <Link to="/auth/signup" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</Link>
+                        location.pathname !== '/auth/signup' && <NavLink to="/auth/signup" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</NavLink>
                     }
+
+
+                    {/* {
+                        location.pathname !== '/auth/signup' && <NavLink to="/auth/signup" className='py-2 px-5 border rounded bg-blue text-white'>Sign up</NavLink>
+                    } */}
                 </div>
 
                 {/* mobile menu */}
@@ -99,22 +99,19 @@ export default function Navbar() {
             {/* navitems for mobile */}
             <div className={`px-4 bg-black py-5 rounded-sm ${isMenuOpen ? "" : "hidden"}`}>
                 <ul>
-                    {navItems.map(({ path, title }) => (
-                        <li key={path} className="text-base text-white first:text-white py-1">
-                            <NavLink
-                                to={path}
-                                className={({ isActive }) => isActive ? "active" : ""}
-                            >
-                                {title}
-                            </NavLink>
-                        </li>
-                    ))}
-
-                    <li className='text-white py-1'><Link to="/login">Log in</Link></li>
-
+                    <li className="text-base text-white first:text-white py-1"><NavLink onClick={handleMenuToggler} path="/home">Start a search</NavLink></li>
+                    <li className="text-base text-white first:text-white py-1"><NavLink onClick={handleMenuToggler} path="/my-job">My Jobs</NavLink></li>
+                    <li className="text-base text-white first:text-white py-1"><NavLink onClick={handleMenuToggler} path="/salary">Salary Estimate</NavLink></li>
+                    <li className="text-base text-white first:text-white py-1"><NavLink onClick={handleMenuToggler} path="/post-job">Post A Job</NavLink></li>
+                    {
+                        loggedInUser ? (
+                            <li className='text-white py-1'><NavLink onClick={handleLogout} to="/auth/login">Log out</NavLink></li>
+                        ) : (
+                            <li className='text-white py-1'><NavLink onClick={handleMenuToggler} to="/auth/login">Log in</NavLink></li>
+                        )
+                    }
                 </ul>
             </div>
-
         </header>
     );
 };
