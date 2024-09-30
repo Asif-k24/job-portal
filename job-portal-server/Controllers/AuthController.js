@@ -17,7 +17,7 @@ const signup = async (req, res) => {
         await userModel.save()
         res.status(201)
             .json({
-                message: "Signup Successfull",
+                message: "Signed up Successfully",
                 success: true,
             })
     } catch (err) {
@@ -57,7 +57,7 @@ const login = async (req, res) => {
 
         res.status(200)
             .json({
-                message: "Login Successfull",
+                message: "Logged in Successfully",
                 success: true,
                 data: {
                     jwtToken,
