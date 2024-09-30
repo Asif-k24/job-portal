@@ -21,11 +21,12 @@ export default function Navbar() {
     }, [])
 
     const handleLogout = () => {
-        localStorage.removeItem('token')
-        localStorage.removeItem('loggedInUser')
-        handleSuccess('Logged Out Successfully')
+        localStorage.removeItem('token');
+        localStorage.removeItem('loggedInUser');
+        handleSuccess('Logged Out Successfully');
         setTimeout(() => {
-            navigate('/auth/login')
+            navigate('/')
+            window.location.reload
         }, 1000)
     }
 
@@ -55,13 +56,13 @@ export default function Navbar() {
                 <ul className="hidden md:flex gap-12">
                     {/* {
                         navItems.map(({ path, title }) => ( */}
-                            <li className="text-base text-primary">
-                                <NavLink to="/home" className="mx-10">Start a search</NavLink>
-                                <NavLink to="/my-job" className="mx-10">My Jobs</NavLink>
-                                <NavLink to="/salary" className="mx-10">Salary Estimate</NavLink>
-                                <NavLink to="/post-job" className="mx-10">Post a Job</NavLink>
-                            </li>
-                        {/* ))} */}
+                    <li className="text-base text-primary">
+                        <NavLink to="/home" className="mx-10">Start a search</NavLink>
+                        <NavLink to="/my-job" className="mx-10">My Jobs</NavLink>
+                        <NavLink to="/salary" className="mx-10">Salary Estimate</NavLink>
+                        <NavLink to="/post-job" className="mx-10">Post a Job</NavLink>
+                    </li>
+                    {/* ))} */}
                 </ul>
 
                 {/* signup and login btn */}
@@ -72,7 +73,7 @@ export default function Navbar() {
                             <NavLink onClick={handleLogout} className='py-2 px-5 border rounded bg-blue text-white'>Logout</NavLink>
                         ) : (
                             // Login button
-                            location.pathname !== '/auth/login' && <NavLink to="/auth/login" className='py-2 px-5 border rounded'>Log in</NavLink>
+                            location.pathname !== '/auth/login' && <NavLink to="/" className='py-2 px-5 border rounded'>Log in</NavLink>
                         )
                     }
                     {
