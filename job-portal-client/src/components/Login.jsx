@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../utils';
 import { ToastContainer } from 'react-toastify';
-import Navbar from './Navbar';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
@@ -44,14 +43,15 @@ export default function Login() {
         body: JSON.stringify(loginInfo) // Explicitly pass the required fields
       });
       const result = await response.json(); // Parse the response JSON
-      const { success, message, data, error } = result; // Destructure result
+      const { success, message, data, error } = result; // Destructured result
 
       if (success) {
-        handleSuccess(message); // Handle successful signup
         localStorage.setItem('token', data.jwtToken);
         localStorage.setItem('loggedInUser', data.name);
+        handleSuccess(message); // Handle successful signup
         setTimeout(() => {
           navigate('/home'); // Navigate to login after successful signup
+          window.location.reload();
           window.scrollTo(0, 0);
         }, 1000);
       } else if (error) {
