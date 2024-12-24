@@ -60,7 +60,7 @@ export default function Login() {
       } else if (!success) {
         handleError(message); // Handle any unexpected errors
       }
-      console.log(result);
+      // console.log(result);
     } catch (err) {
       handleError(err); // Error handling for unexpected errors
     }
