@@ -1,16 +1,15 @@
-import React from "react";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 import { Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import Navbar from './components/Navbar'
-import Home from "./Pages/Home";
-import CreateJob from "./Pages/CreateJob";
-import MyJobs from "./Pages/MyJobs";
 import SalaryPage from "./Pages/SalaryPage";
-import UpdateJob from "./Pages/UpdateJob";
-import Login from "./components/Login";
 import JobDetails from "./Pages/JobDetails";
+import UpdateJob from "./Pages/UpdateJob";
+import CreateJob from "./Pages/CreateJob";
 import Signup from "./components/Signup";
-import ProtectedRoutes from "./components/ProtectedRoutes";
+import Navbar from './components/Navbar';
+import Login from "./components/Login";
+import MyJobs from "./Pages/MyJobs";
+import Home from "./Pages/Home";
 import './App.css'
 
 function App() {
