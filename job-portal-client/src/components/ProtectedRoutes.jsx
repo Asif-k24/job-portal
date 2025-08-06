@@ -1,17 +1,18 @@
-import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom'
-import { handleError } from '../utils';
+import { Outlet, Navigate, useLocation } from "react-router-dom";
 
-export default function ProtectedRoutes() {
+export const ProtectedRoutes = () => {
+  const user = localStorage.getItem("token");
+  const location = useLocation();
 
-    const user = localStorage.getItem('token');
-    const errorMsg = "Login Required"
-
+  if (!user) {
     return (
-        <div>
-            {
-                user ? <Outlet /> : <Navigate to="/" /> && handleError(errorMsg)
-            }
-        </div>
-    )
-}
+      <Navigate
+        to="/auth/login"
+        state={{ from: location.pathname, error: "Login Required" }}
+        replace
+      />
+    );
+  }
+
+  return <Outlet />;
+};
