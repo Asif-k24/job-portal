@@ -1,5 +1,4 @@
 import { handleSuccess } from "../utils";
-import { Button } from "@chakra-ui/react";
 import { CompanyLogo } from "./CompanyLogo";
 import { useEffect, useState } from "react";
 import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
@@ -40,22 +39,25 @@ export const Navbar = () => {
   return (
     <header className="max-w-screen-2xl container mx-auto xl:px-24 px-4">
       <nav className="flex justify-between items-center py-6">
-        <NavLink to="/" className="flex items-center gap-2 text-2xl text-black">
+        <NavLink
+          to={"/home"}
+          className="flex items-center gap-2 text-2xl text-blue font-semibold"
+        >
           <CompanyLogo />
           <span>Job Portal</span>
         </NavLink>
 
         {/* Nav items for desktop */}
-        <ul className="hidden md:flex gap-12 text-base text-primary">
+        <ul className="hidden md:flex gap-12 text-base">
           {navItems.map(({ to, label }) => (
             <li key={to}>
               <NavLink
                 to={to}
                 className={({ isActive }) =>
-                  `mx-2 pb-1 border-b-2 ${
+                  `mx-2 pb-1 border-b-2 transition-all duration-300 ease-in-out ${
                     isActive
-                      ? "border-blue text-blue font-semibold px-2"
-                      : "border-transparent"
+                      ? "border-blue text-blue font-semibold px-2 shadow-[0_3px_2px_-1px_rgba(59,130,246,0.4)]"
+                      : "border-transparent hover:border-blue hover:text-blue hover:shadow-[0_4px_4px_-2px_rgba(59,130,246,0.3)]"
                   }`
                 }
               >
@@ -96,12 +98,19 @@ export const Navbar = () => {
 
         {/* Mobile menu toggle */}
         <div className="md:hidden block">
-          <button onClick={handleMenuToggler}>
-            {isMenuOpen ? (
-              <FaXmark className="w-5 h-5 text-primary" />
-            ) : (
-              <FaBarsStaggered className="w-5 h-5 text-primary" />
-            )}
+          <button onClick={handleMenuToggler} className="relative w-6 h-6">
+            {/* X Icon */}
+            <FaXmark
+              className={`absolute top-0 left-0 w-5 h-5 text-primary transition-all duration-300 ${
+                isMenuOpen ? "opacity-100 scale-100" : "opacity-0 scale-75"
+              }`}
+            />
+            {/* Bars Icon */}
+            <FaBarsStaggered
+              className={`absolute top-0 left-0 w-5 h-5 text-primary transition-all duration-300 ${
+                isMenuOpen ? "opacity-0 scale-75" : "opacity-100 scale-100"
+              }`}
+            />
           </button>
         </div>
       </nav>

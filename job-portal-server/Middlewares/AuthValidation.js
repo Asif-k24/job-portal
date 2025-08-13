@@ -2,13 +2,13 @@ const Joi = require("joi");
 
 const signupValidation = (req, res, next) => {
   const schema = Joi.object({
-    name: Joi.string().min(3).max(100),
-    email: Joi.string().email(),
-    password: Joi.string().min(4).max(100),
+    name: Joi.string().min(3).max(100).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(4).max(100).required(),
+    role: Joi.string().valid("jobseeker", "employer").required(), // ✅ Role validation
   });
 
   const { error } = schema.validate(req.body);
-  // console.log({error});
   if (error) {
     return res.status(400).json({ message: "Bad Request", error });
   }
@@ -22,7 +22,6 @@ const loginValidation = (req, res, next) => {
   });
 
   const { error } = schema.validate(req.body);
-
   if (error) {
     return res.status(400).json({ message: "Bad Request", error });
   }

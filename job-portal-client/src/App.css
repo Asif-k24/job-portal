@@ -4,6 +4,12 @@ body{
   font-family: 'DM Sans', sans-serif;
 }
 
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+
 .active{
   color: #3575E2;
   font-weight: 500;

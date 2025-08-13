@@ -6,7 +6,17 @@ const signup = async (req, res) => {
   // console.log({res});
 
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
+
+    // Extra backend role safety check
+    if (!["jobseeker", "employer"].includes(role)) {
+      return res.status(400).json({
+        message: "Invalid role. Must be jobseeker or employer.",
+        success: false,
+      });
+    }
+
+    // Check if user exists
     const user = await UserModel.findOne({ email });
     if (user) {
       return res.status(409).json({
@@ -14,7 +24,9 @@ const signup = async (req, res) => {
         success: false,
       });
     }
-    const userModel = new UserModel({ name, email, password });
+
+    // Create user
+    const userModel = new UserModel({ name, email, password, role });
     userModel.password = await bcrypt.hash(password, 10);
     await userModel.save();
     res.status(201).json({
@@ -47,7 +59,7 @@ const login = async (req, res) => {
     }
 
     const jwtToken = jwt.sign(
-      { email: user.email, _id: user._id },
+      { email: user.email, _id: user._id, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
@@ -59,6 +71,7 @@ const login = async (req, res) => {
         jwtToken,
         email,
         name: user.name,
+        role: user.role,
       },
     });
   } catch (err) {
